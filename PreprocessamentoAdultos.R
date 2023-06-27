@@ -162,6 +162,32 @@ sum(duplicated(adultosComMenosOutliersESemRedundantes))
 
 adultosComMenosOutliersESemRedundantes <- unique(adultosComMenosOutliersESemRedundantes)
 
+
+# Eliminação de dados ausentes
+length(unique(adultosComMenosOutliersESemRedundantes$Workclass == " ?")) == 2
+length(unique(adultosComMenosOutliersESemRedundantes$Occupation == " ?")) == 2
+length(unique(adultosComMenosOutliersESemRedundantes$Native.country == " ?")) == 2
+
+levels(adultosComMenosOutliersESemRedundantes$Workclass)
+adultosComMenosOutliersESemRedundantes$Workclass[is.na((adultosComMenosOutliersESemRedundantes$Workclass))] <- " Private"
+
+summary(adultosComMenosOutliersESemRedundantes$Occupation)
+levels(adultosComMenosOutliersESemRedundantes$Occupation)
+adultosComMenosOutliersESemRedundantes$Occupation[adultosComMenosOutliersESemRedundantes$Occupation == " ?"] <- " Craft-repair"
+
+summary(adultosComMenosOutliersESemRedundantes$Native.country)
+levels(adultosComMenosOutliersESemRedundantes$Native.country)
+adultosComMenosOutliersESemRedundantes$Native.country[adultosComMenosOutliersESemRedundantes$Native.country == " ?"] <- " United-States"
+
+baseTrabalho3 <- adultosComMenosOutliersESemRedundantes
+write.csv(baseTrabalho3, "baseTreinamentoTrab3.csv", row.names = TRUE)
+
+baseTesteTrab3 <- conjuntoDeTeste
+write.csv(baseTesteTrab3, "baseTesteTrab3.csv", row.names = TRUE)
+
+baseCompletaTrab3 <- rbind(baseTrabalho3, baseTesteTrab3)
+write.csv(baseCompletaTrab3, "baseCompletaTrab3.csv", row.names = TRUE)
+
 # Eliminação de dados ausentes
 
 sapply(adultosComMenosOutliersESemRedundantes, function(x)all(is.na(x)))
