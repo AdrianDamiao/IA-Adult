@@ -1,3 +1,4 @@
+library(RSNNS)
 library(class)
 
 ConjuntoDeTreinamento <- read.csv(file = "baseTreinamentoTrab3.csv", stringsAsFactors = TRUE)
@@ -70,12 +71,15 @@ TargetTest5 <- TesteIteracao5$Above.Limit
 TesteIteracao5$Above.Limit <- NULL
 
 # Iteração 1
-limiar <- 0.5
-
-x <- data.frame (Iteracao1, y = as.factor(TargetTrain1))
-model <- class::knn(train = Iteracao1, test = TesteIteracao1, cl = TargetTrain1, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
+model <- mlp(x = Iteracao1, 
+              y = TargetTrain1, 
+              size = 11, 
+              learnFuncParams = c(0.1), 
+              maxit = 100, 
+              inputsTest = TesteIteracao1, 
+              targetsTest = TargetTest1)
+predsVal <- predict(model,TesteIteracao1)
+predVal <- ifelse (predsVal > 0.5, 1, 0)
 
 print(predVal)
 
@@ -91,12 +95,15 @@ Recall1 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF1 <- ifelse(is.nan(2/((1/Precisao1)+(1/Recall1))), 0, 2/((1/Precisao1)+(1/Recall1)))
 
 # Iteração 2
-limiar <- 0.5
-
-x <- data.frame (Iteracao2, y = as.factor(TargetTrain2))
-model <- class::knn(train = Iteracao2, test = TesteIteracao2, cl = TargetTrain2, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
+model <- mlp(x = Iteracao2, 
+              y = TargetTrain2, 
+              size = 11, 
+              learnFuncParams = c(0.1), 
+              maxit = 100, 
+              inputsTest = TesteIteracao2, 
+              targetsTest = TargetTest2)
+predsVal <- predict(model,TesteIteracao2)
+predVal <- ifelse (predsVal > 0.5, 1, 0)
 
 print(predVal)
 
@@ -111,13 +118,16 @@ Precisao2 <- ifelse(is.nan(tp/(tp+fp)), 0, tp/(tp+fp))
 Recall2 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF2 <- ifelse(is.nan(2/((1/Precisao2)+(1/Recall2))), 0, 2/((1/Precisao2)+(1/Recall2)))
 
-# Iteracao 3
-limiar <- 0.5
-
-x <- data.frame (Iteracao3, y = as.factor(TargetTrain3))
-model <- class::knn(train = Iteracao3, test = TesteIteracao3, cl = TargetTrain3, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
+# Iteração 3
+model <- mlp(x = Iteracao3, 
+              y = TargetTrain3, 
+              size = 11, 
+              learnFuncParams = c(0.1), 
+              maxit = 100, 
+              inputsTest = TesteIteracao3, 
+              targetsTest = TargetTest3)
+predsVal <- predict(model,TesteIteracao3)
+predVal <- ifelse (predsVal > 0.5, 1, 0)
 
 print(predVal)
 
@@ -133,12 +143,15 @@ Recall3 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF3 <- ifelse(is.nan(2/((1/Precisao3)+(1/Recall3))), 0, 2/((1/Precisao3)+(1/Recall3)))
 
 # Iteração 4
-limiar <- 0.5
-
-x <- data.frame (Iteracao4, y = as.factor(TargetTrain4))
-model <- class::knn(train = Iteracao4, test = TesteIteracao4, cl = TargetTrain4, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
+model <- mlp(x = Iteracao4, 
+              y = TargetTrain4, 
+              size = 11, 
+              learnFuncParams = c(0.1), 
+              maxit = 100, 
+              inputsTest = TesteIteracao4, 
+              targetsTest = TargetTest4)
+predsVal <- predict(model,TesteIteracao4)
+predVal <- ifelse (predsVal > 0.5, 1, 0)
 
 print(predVal)
 
@@ -154,12 +167,15 @@ Recall4 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF4 <- ifelse(is.nan(2/((1/Precisao4)+(1/Recall4))), 0, 2/((1/Precisao4)+(1/Recall4)))
 
 # Iteração 5
-limiar <- 0.5
-
-x <- data.frame (Iteracao5, y = as.factor(TargetTrain5))
-model <- class::knn(train = Iteracao5, test = TesteIteracao5, cl = TargetTrain5, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
+model <- mlp(x = Iteracao5, 
+              y = TargetTrain5, 
+              size = 11, 
+              learnFuncParams = c(0.1), 
+              maxit = 100, 
+              inputsTest = TesteIteracao5, 
+              targetsTest = TargetTest5)
+predsVal <- predict(model,TesteIteracao5)
+predVal <- ifelse (predsVal > 0.5, 1, 0)
 
 print(predVal)
 
@@ -178,5 +194,3 @@ MediaAcuracia <- (Acuracia1+Acuracia2+Acuracia3+Acuracia4+Acuracia5)/5
 MediaPrecisao <- (Precisao1+Precisao2+Precisao3+Precisao4+Precisao5)/5
 MediaRecall <- (Recall1+Recall2+Recall3+Recall4+Recall5)/5
 MediaMedidaF <- (MedidaF1+MedidaF2+MedidaF3+MedidaF4+MedidaF5)/5
-
-

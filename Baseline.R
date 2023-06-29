@@ -1,8 +1,5 @@
-library(class)
-
 ConjuntoDeTreinamento <- read.csv(file = "baseTreinamentoTrab3.csv", stringsAsFactors = TRUE)
 ConjuntoDeTeste <- read.csv(file = "baseTesteTrab3.csv", stringsAsFactors = TRUE)
-BaseCompleta <- read.csv(file = "baseCompletaTrab3.csv", stringsAsFactors = TRUE)
 
 # Remover atributos que não serão utilizados
 ConjuntoDeTreinamento <- subset(ConjuntoDeTreinamento, select = -c(1, 7, 9, 10, 11))
@@ -17,11 +14,6 @@ TamanhoDosFolds <- ceiling(nrow(ConjuntoDeTreinamento) / 5)
 
 # Dividir o dataframe em partes iguais
 folds <- split(ConjuntoDeTreinamento, rep(1:5, each = TamanhoDosFolds, length.out = nrow(ConjuntoDeTreinamento)))
-
-# Baseline
-# Contar a quantidade acima e abaixo de 50k para o baseline
-QuantidadeAcimaDe50K <- table(folds[[1]]$Above.Limit)["1"]
-QuantidadeAbaixoDe50K <- table(folds[[1]]$Above.Limit)["0"]
 
 # Calcular as iterações
 # Iteração 1
@@ -69,15 +61,7 @@ TesteIteracao5 <- folds[[1]]
 TargetTest5 <- TesteIteracao5$Above.Limit
 TesteIteracao5$Above.Limit <- NULL
 
-# Iteração 1
-limiar <- 0.5
-
-x <- data.frame (Iteracao1, y = as.factor(TargetTrain1))
-model <- class::knn(train = Iteracao1, test = TesteIteracao1, cl = TargetTrain1, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
-
-print(predVal)
+predVal <- rep(1, nrow(TesteIteracao1))
 
 tp <- sum((TargetTest1 == 1) & (predVal == 1))
 fp <- sum((TargetTest1 == 0) & (predVal == 1))
@@ -90,15 +74,7 @@ Precisao1 <- ifelse(is.nan(tp/(tp+fp)), 0, tp/(tp+fp))
 Recall1 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF1 <- ifelse(is.nan(2/((1/Precisao1)+(1/Recall1))), 0, 2/((1/Precisao1)+(1/Recall1)))
 
-# Iteração 2
-limiar <- 0.5
-
-x <- data.frame (Iteracao2, y = as.factor(TargetTrain2))
-model <- class::knn(train = Iteracao2, test = TesteIteracao2, cl = TargetTrain2, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
-
-print(predVal)
+predVal <- rep(1, nrow(TesteIteracao2))
 
 tp <- sum((TargetTest2 == 1) & (predVal == 1))
 fp <- sum((TargetTest2 == 0) & (predVal == 1))
@@ -111,15 +87,7 @@ Precisao2 <- ifelse(is.nan(tp/(tp+fp)), 0, tp/(tp+fp))
 Recall2 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF2 <- ifelse(is.nan(2/((1/Precisao2)+(1/Recall2))), 0, 2/((1/Precisao2)+(1/Recall2)))
 
-# Iteracao 3
-limiar <- 0.5
-
-x <- data.frame (Iteracao3, y = as.factor(TargetTrain3))
-model <- class::knn(train = Iteracao3, test = TesteIteracao3, cl = TargetTrain3, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
-
-print(predVal)
+predVal <- rep(1, nrow(TesteIteracao3))
 
 tp <- sum((TargetTest3 == 1) & (predVal == 1))
 fp <- sum((TargetTest3 == 0) & (predVal == 1))
@@ -132,15 +100,7 @@ Precisao3 <- ifelse(is.nan(tp/(tp+fp)), 0, tp/(tp+fp))
 Recall3 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF3 <- ifelse(is.nan(2/((1/Precisao3)+(1/Recall3))), 0, 2/((1/Precisao3)+(1/Recall3)))
 
-# Iteração 4
-limiar <- 0.5
-
-x <- data.frame (Iteracao4, y = as.factor(TargetTrain4))
-model <- class::knn(train = Iteracao4, test = TesteIteracao4, cl = TargetTrain4, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
-
-print(predVal)
+predVal <- rep(1, nrow(TesteIteracao1))
 
 tp <- sum((TargetTest4 == 1) & (predVal == 1))
 fp <- sum((TargetTest4 == 0) & (predVal == 1))
@@ -153,15 +113,7 @@ Precisao4 <- ifelse(is.nan(tp/(tp+fp)), 0, tp/(tp+fp))
 Recall4 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF4 <- ifelse(is.nan(2/((1/Precisao4)+(1/Recall4))), 0, 2/((1/Precisao4)+(1/Recall4)))
 
-# Iteração 5
-limiar <- 0.5
-
-x <- data.frame (Iteracao5, y = as.factor(TargetTrain5))
-model <- class::knn(train = Iteracao5, test = TesteIteracao5, cl = TargetTrain5, k = 3)
-predsVal <- as.numeric(as.character(model))
-predVal <- ifelse(predsVal > limiar, 1, 0)
-
-print(predVal)
+predVal <- rep(1, nrow(TesteIteracao5))
 
 tp <- sum((TargetTest5 == 1) & (predVal == 1))
 fp <- sum((TargetTest5 == 0) & (predVal == 1))
@@ -174,9 +126,9 @@ Precisao5 <- ifelse(is.nan(tp/(tp+fp)), 0, tp/(tp+fp))
 Recall5 <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
 MedidaF5 <- ifelse(is.nan(2/((1/Precisao5)+(1/Recall5))), 0, 2/((1/Precisao5)+(1/Recall5)))
 
-MediaAcuracia <- (Acuracia1+Acuracia2+Acuracia3+Acuracia4+Acuracia5)/5
-MediaPrecisao <- (Precisao1+Precisao2+Precisao3+Precisao4+Precisao5)/5
-MediaRecall <- (Recall1+Recall2+Recall3+Recall4+Recall5)/5
-MediaMedidaF <- (MedidaF1+MedidaF2+MedidaF3+MedidaF4+MedidaF5)/5
 
-
+# Média das méticas do baseline
+MediaAcuraciaBaseline <- (Acuracia1+Acuracia2+Acuracia3+Acuracia4+Acuracia5)/5
+MediaPrecisaoBaseline <- (Precisao1+Precisao2+Precisao3+Precisao4+Precisao5)/5
+MediaRecallBaseline <- (Recall1+Recall2+Recall3+Recall4+Recall5)/5
+MediaMedidaFBaseline <- (MedidaF1+MedidaF2+MedidaF3+MedidaF4+MedidaF5)/5
