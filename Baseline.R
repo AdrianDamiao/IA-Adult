@@ -2,8 +2,8 @@ ConjuntoDeTreinamento <- read.csv(file = "baseTreinamentoTrab3.csv", stringsAsFa
 ConjuntoDeTeste <- read.csv(file = "baseTesteTrab3.csv", stringsAsFactors = TRUE)
 
 # Remover atributos que não serão utilizados
-ConjuntoDeTreinamento <- subset(ConjuntoDeTreinamento, select = -c(1, 7, 9, 10, 11))
-ConjuntoDeTeste <- subset(ConjuntoDeTeste, select = -c(1, 7, 9, 10, 11))
+ConjuntoDeTreinamento <- subset(ConjuntoDeTreinamento, select = -c(6, 8, 9, 10))
+ConjuntoDeTeste <- subset(ConjuntoDeTeste, select = -c(6, 8, 9, 10))
 
 # Converte a saída para 0 e 1
 ConjuntoDeTreinamento$Above.Limit <- ifelse(ConjuntoDeTreinamento$Above.Limit == 1, 0, 1)

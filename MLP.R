@@ -6,8 +6,8 @@ ConjuntoDeTeste <- read.csv(file = "baseTesteTrab3.csv", stringsAsFactors = TRUE
 BaseCompleta <- read.csv(file = "baseCompletaTrab3.csv", stringsAsFactors = TRUE)
 
 # Remover atributos que não serão utilizados
-ConjuntoDeTreinamento <- subset(ConjuntoDeTreinamento, select = -c(1, 7, 9, 10, 11))
-ConjuntoDeTeste <- subset(ConjuntoDeTeste, select = -c(1, 7, 9, 10, 11))
+ConjuntoDeTreinamento <- subset(ConjuntoDeTreinamento, select = -c(6, 8, 9, 10))
+ConjuntoDeTeste <- subset(ConjuntoDeTeste, select = -c(6, 8, 9, 10))
 
 # Converte a saída para 0 e 1
 ConjuntoDeTreinamento$Above.Limit <- ifelse(ConjuntoDeTreinamento$Above.Limit == 1, 0, 1)
@@ -194,3 +194,22 @@ MediaAcuracia <- (Acuracia1+Acuracia2+Acuracia3+Acuracia4+Acuracia5)/5
 MediaPrecisao <- (Precisao1+Precisao2+Precisao3+Precisao4+Precisao5)/5
 MediaRecall <- (Recall1+Recall2+Recall3+Recall4+Recall5)/5
 MediaMedidaF <- (MedidaF1+MedidaF2+MedidaF3+MedidaF4+MedidaF5)/5
+
+
+# Teste 
+predsVal <- predict(model, ConjuntoDeTeste)
+predVal <- ifelse (predsVal > 0.5, 1, 0)
+
+print(predVal)
+
+tp <- sum((ConjuntoDeTeste$Above.Limit == 1) & (predVal == 1))
+fp <- sum((ConjuntoDeTeste$Above.Limit == 0) & (predVal == 1))
+tn <- sum((ConjuntoDeTeste$Above.Limit == 0) & (predVal == 0))
+fn <- sum((ConjuntoDeTeste$Above.Limit == 1) & (predVal == 0))
+confusionMat <- matrix(c(tn, fn, fp, tp), nrow = 2, ncol = 2, dimnames = list(c("0","1"), c("0","1")))
+
+AcuraciaTeste <- ifelse(is.nan((tp+tn)/(tp+fp+tn+fn)), 0, (tp+tn)/(tp+fp+tn+fn))
+PrecisaoTeste <- ifelse(is.nan(tp/(tp+fp)), 0, tp/(tp+fp))
+RecallTeste <- ifelse(is.nan(tp/(tp+fn)), 0, tp/(tp+fn))
+MedidaFTeste <- ifelse(is.nan(2/((1/PrecisaoTeste)+(1/RecallTeste))), 0, 2/((1/PrecisaoTeste)+(1/RecallTeste)))
+
